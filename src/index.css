@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Layout concept: a dark "control room" with warm studio light behind frosted glass panels.
+   One accent (ember orange) for action and the virality score. Everything else is neutral. */
+:root {
+  --bg: #0b0908;
+  --fg: #f5efea;
+  --muted: #a79d96;
+  --ember: #ff6a1f;
+  --glass: rgba(255, 244, 236, 0.045);
+  --glass-strong: rgba(255, 244, 236, 0.075);
+  --line: rgba(255, 240, 230, 0.09);
+  --line-strong: rgba(255, 240, 230, 0.16);
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+body {
+  font-family: Geist, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgba(255, 106, 31, 0.35);
+}
+
+/* Ambient studio light. Fixed, behind everything, very low intensity. */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60rem 36rem at 78% -8%, rgba(255, 106, 31, 0.16), transparent 60%),
+    radial-gradient(44rem 30rem at -6% 38%, rgba(255, 150, 80, 0.07), transparent 60%),
+    radial-gradient(50rem 40rem at 50% 120%, rgba(255, 80, 20, 0.08), transparent 60%),
+    var(--bg);
+}
+.backdrop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@layer components {
+  .glass {
+    background: var(--glass);
+    border: 1px solid var(--line);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 1px 2px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+  }
+  .glass-strong {
+    background: var(--glass-strong);
+    border: 1px solid var(--line-strong);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 24px 60px -20px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(28px) saturate(150%);
+    -webkit-backdrop-filter: blur(28px) saturate(150%);
+  }
+  .hairline {
+    border-color: var(--line);
+  }
+  .gutter {
+    padding-left: max(20px, env(safe-area-inset-left, 0px));
+    padding-right: max(20px, env(safe-area-inset-right, 0px));
+  }
+  .container-x {
+    @apply mx-auto w-full max-w-[1200px] gutter;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[10px] text-sm font-medium transition-[background,color,box-shadow,transform] duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink active:translate-y-px disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn bg-ember px-4 py-2.5 text-[#1a0a02] hover:bg-ember-400;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.35),
+      0 8px 24px -8px rgba(255, 106, 31, 0.6);
+  }
+  .btn-ghost {
+    @apply btn glass px-4 py-2.5 text-fg hover:bg-white/[0.08];
+  }
+  .btn-quiet {
+    @apply btn px-3 py-2 text-fg-muted hover:bg-white/[0.06] hover:text-fg;
+  }
+  .btn-sm {
+    @apply px-3 py-1.5 text-[13px];
+  }
+
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-[0.14em] text-fg-dim;
+  }
+  .display {
+    font-family: 'Schibsted Grotesk', ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+  .num {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-md border px-2 py-0.5 text-[11px] font-medium hairline bg-white/[0.04] text-fg-muted;
+  }
+  .input {
+    @apply w-full rounded-[10px] border bg-black/20 px-3 py-2 text-sm text-fg placeholder:text-fg-dim hairline outline-none transition focus:border-ember/60 focus:ring-2 focus:ring-ember/20;
+  }
+  .nav-link {
+    @apply rounded-lg px-3 py-1.5 text-sm text-fg-muted transition hover:text-fg;
+  }
+}
+
+.scroll-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+}
+
+@keyframes pulse-live {
+  0%, 100% { opacity: 1 }
+  50% { opacity: 0.35 }
+}
+.live-dot {
+  animation: pulse-live 1.6s ease-in-out infinite;
+}
+@keyframes scan {
+  from { transform: translateX(0) }
+  to { transform: translateX(100%) }
+}
+@keyframes rise {
+  from { opacity: 0.001; transform: translateY(8px) }
+  to { opacity: 1; transform: none }
+}
+.rise { animation: rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
