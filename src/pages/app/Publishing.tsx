@@ -72,7 +72,7 @@ export default function Publishing() {
                       <Link key={it.clip + it.time} to={`/app/editor/${c.id}`} className={clsx('rounded-xl border hairline bg-black/25 p-2 transition hover:border-white/20', past && 'opacity-55')}>
                         <div className="flex gap-2">
                           <div className="w-8 shrink-0">
-                            <Thumb hue={c.hue} className="rounded-[5px]" />
+                            <Thumb hue={c.hue} clip={c} className="rounded-[5px]" />
                           </div>
                           <div className="min-w-0">
                             <p className="num text-[11px] text-fg-muted">{it.time}</p>
@@ -107,7 +107,7 @@ export default function Publishing() {
                       <p className="num text-xs text-fg-dim">{it.time}</p>
                     </div>
                     <div className="w-9 shrink-0">
-                      <Thumb hue={c.hue} className="rounded-md" />
+                      <Thumb hue={c.hue} clip={c} className="rounded-md" />
                     </div>
                     <p className="min-w-0 flex-1 truncate text-sm">{c.title}</p>
                     <SocialTag s={it.to} />

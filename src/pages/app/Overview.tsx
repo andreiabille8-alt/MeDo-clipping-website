@@ -1,6 +1,7 @@
 import { ArrowRight, ArrowUpRight, Eye, Scissors, Timer, TrendingUp } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { Card, EngagementChart, PlatformTag, Score, SectionHead, SocialTag, StatusPill, Thumb } from '../../components/ui'
+import { ClipPlayer, HoverClip } from '../../components/ClipVideo'
+import { Card, EngagementChart, PlatformTag, Score, SectionHead, SocialTag, StatusPill } from '../../components/ui'
 import { clips, engagementSeries, fmtTime, streams } from '../../lib/data'
 
 export default function Overview() {
@@ -41,7 +42,7 @@ export default function Overview() {
         ))}
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px]">
         {/* Live now */}
         <Card className="min-w-0 p-5">
           <div className="flex flex-wrap items-start justify-between gap-3">
@@ -81,7 +82,7 @@ export default function Overview() {
           <SectionHead title="Top clip this week" action={<Score value={top.score} />} />
           <div className="mt-4 flex gap-4">
             <div className="w-[110px] shrink-0">
-              <Thumb hue={top.hue} caption="1V4 CLUTCH WITH 3 HP" highlight="clutch" captionClass="text-[10px]" />
+              <ClipPlayer clip={top} caption={top.title.toUpperCase().split(' ').slice(0, 4).join(' ')} highlight={top.title.split(' ')[1]} captionClass="text-[10px]" />
             </div>
             <div className="flex min-w-0 flex-col">
               <p className="text-sm font-medium leading-snug">{top.title}</p>
@@ -96,7 +97,7 @@ export default function Overview() {
         </Card>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px]">
         {/* Ready for review */}
         <Card className="min-w-0 p-5">
           <SectionHead
@@ -111,7 +112,7 @@ export default function Overview() {
           <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4">
             {ready.map((c) => (
               <Link key={c.id} to={`/app/editor/${c.id}`} className="group min-w-0 focus-visible:outline-none">
-                <Thumb hue={c.hue} caption={c.title.toUpperCase().split(' ').slice(0, 4).join(' ')} highlight={c.title.split(' ')[0]} captionClass="text-[11px]" className="ring-1 ring-white/10 transition group-hover:ring-ember/50 group-focus-visible:ring-2 group-focus-visible:ring-ember" />
+                <HoverClip clip={c} caption={c.title.toUpperCase().split(' ').slice(0, 4).join(' ')} highlight={c.title.split(' ')[0]} captionClass="text-[11px]" className="ring-1 ring-white/10 transition group-hover:ring-ember/50 group-focus-visible:ring-2 group-focus-visible:ring-ember" />
                 <div className="mt-2 flex items-start justify-between gap-2">
                   <p className="line-clamp-2 text-[13px] leading-snug text-fg-muted group-hover:text-fg">{c.title}</p>
                   <Score value={c.score} size="sm" />

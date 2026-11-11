@@ -38,12 +38,12 @@ export type Stream = {
 }
 
 export const streams: Stream[] = [
-  { id: 's1', title: 'Ranked grind to Immortal — no sleep until', channel: 'nova_plays', platform: 'twitch', date: 'Live now', duration: '4:12:08', durationSec: 15128, status: 'live', clips: 9, peakViewers: '21.4K', game: 'Valorant' },
-  { id: 's2', title: 'Elden Ring DLC blind, final boss attempts', channel: 'nova_plays', platform: 'twitch', date: 'Nov 9', duration: '6:41:22', durationSec: 24082, status: 'processing', progress: 68, clips: 22, peakViewers: '34.9K', game: 'Elden Ring' },
-  { id: 's3', title: '24h subathon day 2 — chat picks the game', channel: 'nova_plays', platform: 'twitch', date: 'Nov 7', duration: '11:03:51', durationSec: 39831, status: 'done', clips: 47, peakViewers: '52.1K', game: 'Just Chatting' },
-  { id: 's4', title: 'Reacting to your worst ranked clips', channel: 'Nova Clips', platform: 'youtube', date: 'Nov 6', duration: '2:18:40', durationSec: 8320, status: 'done', clips: 14, peakViewers: '9.8K', game: 'Just Chatting' },
-  { id: 's5', title: 'Kick exclusive: speedrun practice', channel: 'novaplays', platform: 'kick', date: 'Nov 4', duration: '3:27:15', durationSec: 12435, status: 'done', clips: 11, peakViewers: '6.2K', game: 'Celeste' },
-  { id: 's6', title: 'Valorant customs with viewers', channel: 'nova_plays', platform: 'twitch', date: 'Nov 3', duration: '5:02:33', durationSec: 18153, status: 'queued', clips: 0, peakViewers: '18.7K', game: 'Valorant' },
+  { id: 's1', title: 'Chat picks the game: VR and mobile games', channel: 'nova_plays', platform: 'twitch', date: 'Live now', duration: '4:12:08', durationSec: 15128, status: 'live', clips: 9, peakViewers: '21.4K', game: 'Variety' },
+  { id: 's2', title: 'Cooking stream on the road to 16M', channel: 'nova_plays', platform: 'twitch', date: 'Nov 9', duration: '6:41:22', durationSec: 24082, status: 'processing', progress: 68, clips: 22, peakViewers: '34.9K', game: 'Just Chatting' },
+  { id: 's3', title: 'IRL in Portugal: Lisbon to the beach', channel: 'nova_plays', platform: 'twitch', date: 'Nov 7', duration: '11:03:51', durationSec: 39831, status: 'done', clips: 47, peakViewers: '52.1K', game: 'IRL' },
+  { id: 's4', title: 'Pack opening until Ronaldo shows up', channel: 'Nova Clips', platform: 'youtube', date: 'Nov 6', duration: '2:18:40', durationSec: 8320, status: 'done', clips: 14, peakViewers: '9.8K', game: 'EA FC' },
+  { id: 's5', title: 'Fortnite, then flight sim', channel: 'novaplays', platform: 'kick', date: 'Nov 4', duration: '3:27:15', durationSec: 12435, status: 'done', clips: 11, peakViewers: '6.2K', game: 'Fortnite' },
+  { id: 's6', title: 'Fortnite customs with viewers', channel: 'nova_plays', platform: 'twitch', date: 'Nov 3', duration: '5:02:33', durationSec: 18153, status: 'queued', clips: 0, peakViewers: '18.7K', game: 'Fortnite' },
 ]
 
 export type Clip = {
@@ -55,25 +55,32 @@ export type Clip = {
   score: number
   reason: string
   hue: number
+  /** Real footage for the demo: a slice of a YouTube video, a poster frame, and where the 9:16 crop centers (0 = left, 1 = right). */
+  yt: { id: string; start: number; end: number }
+  poster: string
+  focus: number
   posted?: Social[]
   views?: string
   scheduled?: string
   status: 'ready' | 'rendering' | 'posted' | 'scheduled'
 }
 
+// Example footage: moments from a public YouTube compilation. Playback is a YouTube embed; poster stills live in public/clips. Swap for the creator's own clips before launch.
+export const DEMO_VIDEO = '9Ke9DOdvNEI'
+
 export const clips: Clip[] = [
-  { id: 'k1', title: '1v4 clutch with 3 HP to win the match', streamId: 's2', start: 8057, length: 38, score: 97, reason: 'Chat 14× baseline · audio peak · "NO WAY"', hue: 18, status: 'posted', posted: ['tiktok', 'shorts'], views: '1.2M' },
-  { id: 'k2', title: 'Boss one-shots him at 1% HP', streamId: 's2', start: 14420, length: 27, score: 94, reason: 'Chat 11× · scream detected · 4.1K "LMAO"', hue: 350, status: 'ready' },
-  { id: 'k3', title: 'Mom walks in during the donation reading', streamId: 's3', start: 21530, length: 44, score: 91, reason: 'Laughter · chat 9× · new viewer spike', hue: 32, status: 'scheduled', scheduled: 'Today, 6:00 PM' },
-  { id: 'k4', title: 'Accidentally ranks up the wrong account', streamId: 's4', start: 3302, length: 52, score: 88, reason: 'Chat 7× · "W" spam · emote burst', hue: 200, status: 'posted', posted: ['tiktok', 'reels', 'shorts'], views: '486K' },
-  { id: 'k5', title: '“That was not a jump, that was a prayer”', streamId: 's5', start: 6631, length: 19, score: 86, reason: 'Quote detected · chat 6×', hue: 280, status: 'ready' },
-  { id: 'k6', title: 'Gifted 500 subs mid-sentence', streamId: 's3', start: 30122, length: 33, score: 84, reason: 'Sub alert · chat 12× · audio peak', hue: 45, status: 'scheduled', scheduled: 'Tomorrow, 12:30 PM' },
-  { id: 'k7', title: 'Rage quits, comes back 10 seconds later', streamId: 's2', start: 19940, length: 41, score: 82, reason: 'Silence → spike pattern · chat 8×', hue: 8, status: 'rendering' },
-  { id: 'k8', title: 'Calls the ace before it happens', streamId: 's1', start: 9021, length: 29, score: 79, reason: 'Prediction phrase · chat 6×', hue: 160, status: 'ready' },
-  { id: 'k9', title: 'Chat votes him into a horror game', streamId: 's3', start: 12210, length: 36, score: 77, reason: 'Poll ended · chat 5× · scream', hue: 260, status: 'posted', posted: ['shorts'], views: '92K' },
-  { id: 'k10', title: 'Explains the lore wrong for 30 seconds', streamId: 's4', start: 6120, length: 31, score: 72, reason: 'Laughter · chat 4×', hue: 120, status: 'ready' },
-  { id: 'k11', title: 'Speedrun skip finally works', streamId: 's5', start: 10011, length: 24, score: 70, reason: 'Audio peak · chat 5×', hue: 190, status: 'ready' },
-  { id: 'k12', title: 'Teammate throws, he stays calm (briefly)', streamId: 's1', start: 4410, length: 35, score: 66, reason: 'Chat 4× · tone shift', hue: 340, status: 'ready' },
+  { id: 'k1', title: 'Turkish ice cream man trolls him for 1:37', streamId: 's3', start: 21530, length: 68, score: 97, reason: 'Crowd noise peak · chat 15× · "LMAOOO" wall', hue: 18, yt: { id: DEMO_VIDEO, start: 229, end: 297 }, poster: '/clips/k1.jpg', focus: 0.22, status: 'posted', posted: ['tiktok', 'shorts'], views: '1.2M' },
+  { id: 'k2', title: 'Pours milk into a deep fryer to cook faster', streamId: 's2', start: 14420, length: 46, score: 94, reason: 'Explosion audio spike · chat 12× · scream detected', hue: 350, yt: { id: DEMO_VIDEO, start: 145, end: 191 }, poster: '/clips/k2.jpg', focus: 0.45, status: 'ready' },
+  { id: 'k3', title: 'Washes his face to come back to 16M subs', streamId: 's2', start: 8057, length: 14, score: 91, reason: 'Sub counter milestone · chat 9× · new viewer spike', hue: 32, yt: { id: DEMO_VIDEO, start: 330, end: 344 }, poster: '/clips/k3.jpg', focus: 0.82, status: 'scheduled', scheduled: 'Today, 6:00 PM' },
+  { id: 'k4', title: 'Asks for a $145,000 Ronaldo watch', streamId: 's4', start: 3302, length: 15, score: 88, reason: 'Price quote detected · chat 7× · "W" spam', hue: 200, yt: { id: DEMO_VIDEO, start: 60, end: 75 }, poster: '/clips/k4.jpg', focus: 0.5, status: 'posted', posted: ['tiktok', 'reels', 'shorts'], views: '486K' },
+  { id: 'k5', title: 'Buried in sand until the beach chants Messi', streamId: 's3', start: 30122, length: 10, score: 86, reason: 'Crowd chant · chat 8× · laughter', hue: 280, yt: { id: DEMO_VIDEO, start: 518, end: 528 }, poster: '/clips/k5.jpg', focus: 0.55, status: 'ready' },
+  { id: 'k6', title: 'Crashes a fighter jet in flight sim', streamId: 's5', start: 6631, length: 57, score: 84, reason: 'Scream · chat 11× · audio peak', hue: 45, yt: { id: DEMO_VIDEO, start: 410, end: 467 }, poster: '/clips/k6.jpg', focus: 0.33, status: 'scheduled', scheduled: 'Tomorrow, 12:30 PM' },
+  { id: 'k7', title: '“Why does the ocean taste like salt water?”', streamId: 's3', start: 33410, length: 18, score: 82, reason: 'Quote detected · chat 8×', hue: 8, yt: { id: DEMO_VIDEO, start: 530, end: 548 }, poster: '/clips/k7.jpg', focus: 0.45, status: 'rendering' },
+  { id: 'k8', title: 'Shows Soulja Boy a magic trick on FaceTime', streamId: 's2', start: 19940, length: 15, score: 79, reason: 'Guest on call · chat 6× · laughter', hue: 160, yt: { id: DEMO_VIDEO, start: 76, end: 91 }, poster: '/clips/k8.jpg', focus: 0.4, status: 'ready' },
+  { id: 'k9', title: 'Packs a 105 Ronaldo and loses it', streamId: 's4', start: 5120, length: 13, score: 77, reason: 'Pack animation · scream · chat 10×', hue: 260, yt: { id: DEMO_VIDEO, start: 10, end: 23 }, poster: '/clips/k9.jpg', focus: 0.4, status: 'posted', posted: ['shorts'], views: '92K' },
+  { id: 'k10', title: 'Wins a Fortnite Victory Royale', streamId: 's5', start: 10011, length: 14, score: 72, reason: 'Win screen · chat 5× · audio peak', hue: 120, yt: { id: DEMO_VIDEO, start: 121, end: 135 }, poster: '/clips/k10.jpg', focus: 0.25, status: 'ready' },
+  { id: 'k11', title: 'Sets a new Tower Stack record: 95', streamId: 's1', start: 9021, length: 16, score: 70, reason: 'Score popup · chat 5×', hue: 190, yt: { id: DEMO_VIDEO, start: 308, end: 324 }, poster: '/clips/k11.jpg', focus: 0.3, status: 'ready' },
+  { id: 'k12', title: 'Runs into Peter Griffin in VR', streamId: 's1', start: 4410, length: 20, score: 66, reason: 'Laughter · chat 4× · tone shift', hue: 340, yt: { id: DEMO_VIDEO, start: 344, end: 364 }, poster: '/clips/k12.jpg', focus: 0.22, status: 'ready' },
 ]
 
 export const fmtTime = (s: number) => {

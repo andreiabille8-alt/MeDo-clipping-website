@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Landing from './pages/Landing'
-import Auth from './pages/Auth'
 import AppShell from './pages/app/AppShell'
+import Home from './pages/app/Home'
 import Overview from './pages/app/Overview'
 import Streams from './pages/app/Streams'
 import StreamDetail from './pages/app/StreamDetail'
@@ -26,10 +26,12 @@ export default function App() {
       <ScrollTop />
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/login" element={<Auth mode="login" />} />
-        <Route path="/signup" element={<Auth mode="signup" />} />
+        {/* Demo site: no real auth, so login and signup drop straight into the app */}
+        <Route path="/login" element={<Navigate to="/app" replace />} />
+        <Route path="/signup" element={<Navigate to="/app" replace />} />
         <Route path="/app" element={<AppShell />}>
-          <Route index element={<Overview />} />
+          <Route index element={<Home />} />
+          <Route path="overview" element={<Overview />} />
           <Route path="streams" element={<Streams />} />
           <Route path="streams/:id" element={<StreamDetail />} />
           <Route path="editor/:clipId" element={<Editor />} />

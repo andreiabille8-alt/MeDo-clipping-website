@@ -27,11 +27,6 @@ export default function StreamDetail() {
   const visible = list.filter((c) => c.score >= minScore)
 
   useEffect(() => setT(0), [active])
-  useEffect(() => {
-    if (!playing) return
-    const iv = setInterval(() => setT((x) => (x + 0.1 >= clip.length ? (setPlaying(false), 0) : x + 0.1)), 100)
-    return () => clearInterval(iv)
-  }, [playing, clip.length])
 
   const series = useMemo(() => engagementSeries(stream.id.charCodeAt(1), 200, list.map((c) => c.start / dur)), [stream.id, list, dur])
 
@@ -84,7 +79,7 @@ export default function StreamDetail() {
         {/* Preview */}
         <Card className="p-5 lg:sticky lg:top-20 lg:self-start">
           <div className="mx-auto max-w-[240px]">
-            <Thumb hue={clip.hue} caption={clip.title.toUpperCase().split(' ').slice(0, 5).join(' ')} highlight={clip.title.split(' ')[1]} captionClass="text-[16px]">
+            <Thumb key={clip.id} hue={clip.hue} clip={clip} playing={playing} onTime={setT} caption={clip.title.toUpperCase().split(' ').slice(0, 5).join(' ')} highlight={clip.title.split(' ')[1]} captionClass="text-[16px]">
               <div className="absolute inset-x-0 bottom-0 h-1 bg-white/15">
                 <div className="h-full bg-ember transition-[width] duration-100" style={{ width: `${(t / clip.length) * 100}%` }} />
               </div>
@@ -119,7 +114,7 @@ export default function StreamDetail() {
               <li key={c.id}>
                 <button onClick={() => setActive(c.id)} className={clsx('flex w-full items-center gap-4 px-5 py-3 text-left transition', active === c.id ? 'bg-ember/[0.07]' : 'hover:bg-white/[0.03]')}>
                   <div className="w-11 shrink-0">
-                    <Thumb hue={c.hue} className="rounded-md" />
+                    <Thumb hue={c.hue} clip={c} className="rounded-md" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className={clsx('truncate text-sm', active === c.id ? 'text-fg' : 'text-fg-muted')}>{c.title}</p>

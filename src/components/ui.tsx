@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import { ReactNode, useId } from 'react'
+import { cropX, YouTubeLayer } from './ClipVideo'
 import { Platform, platformMeta, Social, socialMeta, StreamStatus } from '../lib/data'
 
 export function Logo({ className, iconOnly }: { className?: string; iconOnly?: boolean }) {
@@ -15,7 +16,12 @@ export function Logo({ className, iconOnly }: { className?: string; iconOnly?: b
   )
 }
 
-/** A vertical 9:16 clip frame, drawn with gradients instead of stock imagery. */
+type ClipSource = { poster: string; focus: number; yt: { id: string; start: number; end: number } }
+
+/**
+ * A vertical 9:16 clip frame. With `clip` it shows the real poster frame (and plays the footage while `playing`);
+ * without it, it's drawn with gradients, which the marketing page uses.
+ */
 export function Thumb({
   hue,
   caption,
@@ -24,6 +30,11 @@ export function Thumb({
   layout = 'facecam',
   captionClass = 'text-[13px]',
   children,
+  clip,
+  playing,
+  muted,
+  restart,
+  onTime,
 }: {
   captionClass?: string
   hue: number
@@ -32,7 +43,33 @@ export function Thumb({
   className?: string
   layout?: 'facecam' | 'gameplay' | 'split'
   children?: ReactNode
+  clip?: ClipSource
+  playing?: boolean
+  muted?: boolean
+  restart?: number
+  onTime?: (t: number) => void
 }) {
+  if (clip) {
+    const words = caption?.split(' ') ?? []
+    return (
+      <div className={clsx('relative aspect-[9/16] w-full max-w-full overflow-hidden rounded-xl bg-black', className)}>
+        <img src={clip.poster} alt="" loading="lazy" draggable={false} className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: `${cropX(clip.focus) * 100}% 50%` }} />
+        {playing !== undefined && <YouTubeLayer src={clip} playing={playing} muted={muted} restart={restart} onTime={onTime} />}
+        {caption && (
+          <div className={clsx('pointer-events-none absolute inset-x-[8%] text-center', layout === 'split' ? 'top-[40%]' : 'top-[62%]')}>
+            <p className={clsx('font-display font-bold uppercase leading-[1.05] tracking-[-0.01em] text-white [text-shadow:0_2px_0_rgba(0,0,0,.75),0_0_12px_rgba(0,0,0,.5)]', captionClass)}>
+              {words.map((w, i) => (
+                <span key={i} className={clsx(w.replace(/[^\w']/g, '').toLowerCase() === highlight?.toLowerCase() && 'text-ember')}>
+                  {w}{' '}
+                </span>
+              ))}
+            </p>
+          </div>
+        )}
+        {children}
+      </div>
+    )
+  }
   const a = `hsl(${hue} 58% 42%)`
   const b = `hsl(${(hue + 40) % 360} 45% 20%)`
   const c = `hsl(${(hue + 200) % 360} 50% 14%)`

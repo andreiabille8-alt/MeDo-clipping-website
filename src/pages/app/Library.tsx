@@ -2,7 +2,8 @@ import clsx from 'clsx'
 import { Check, Download, Search, Send, Trash2, X } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Score, Segmented, SocialTag, Thumb } from '../../components/ui'
+import { HoverClip } from '../../components/ClipVideo'
+import { Score, Segmented, SocialTag } from '../../components/ui'
 import { Clip, clips as seed, fmtTime, streams } from '../../lib/data'
 
 type Status = 'all' | 'ready' | 'scheduled' | 'posted'
@@ -94,7 +95,7 @@ export default function Library() {
               <div key={c.id} className="group min-w-0">
                 <div className="relative">
                   <Link to={`/app/editor/${c.id}`} className="block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember">
-                    <Thumb hue={c.hue} caption={c.title.toUpperCase().split(' ').slice(0, 4).join(' ')} highlight={c.title.split(' ')[0]} captionClass="text-[11px]" className={clsx('ring-1 transition', on ? 'ring-2 ring-ember' : 'ring-white/10 group-hover:ring-white/25')} />
+                    <HoverClip clip={c} caption={c.title.toUpperCase().split(' ').slice(0, 4).join(' ')} highlight={c.title.split(' ')[0]} captionClass="text-[11px]" className={clsx('ring-1 transition', on ? 'ring-2 ring-ember' : 'ring-white/10 group-hover:ring-white/25')} />
                   </Link>
                   <button
                     onClick={() => toggle(c.id)}

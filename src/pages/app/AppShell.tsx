@@ -1,12 +1,13 @@
 import clsx from 'clsx'
-import { Bell, CalendarClock, ChevronsLeft, Clapperboard, Command, LayoutGrid, Library, Menu, Plus, Radio, Search, Settings, X } from 'lucide-react'
+import { Bell, CalendarClock, ChevronsLeft, Clapperboard, Command, House, LayoutGrid, Library, Menu, Plus, Radio, Search, Settings, X } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Logo, Score } from '../../components/ui'
 import { channels, clips, platformMeta, streams } from '../../lib/data'
 
 const nav = [
-  { to: '/app', label: 'Overview', icon: LayoutGrid, end: true },
+  { to: '/app', label: 'Home', icon: House, end: true },
+  { to: '/app/overview', label: 'Overview', icon: LayoutGrid },
   { to: '/app/streams', label: 'Streams', icon: Radio },
   { to: '/app/library', label: 'Clip library', icon: Library },
   { to: '/app/publishing', label: 'Publishing', icon: CalendarClock },
@@ -163,7 +164,8 @@ function Palette({ onClose }: { onClose: () => void }) {
 
   const items = useMemo(() => {
     const pages = [
-      { label: 'Go to Overview', to: '/app', kind: 'Page' },
+      { label: 'Go to Home', to: '/app', kind: 'Page' },
+      { label: 'Go to Overview', to: '/app/overview', kind: 'Page' },
       { label: 'Go to Streams', to: '/app/streams', kind: 'Page' },
       { label: 'Go to Clip library', to: '/app/library', kind: 'Page' },
       { label: 'Go to Publishing', to: '/app/publishing', kind: 'Page' },

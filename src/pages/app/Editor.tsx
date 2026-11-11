@@ -32,6 +32,7 @@ export default function Editor() {
   const [filter, setFilter] = useState(true)
   const [playing, setPlaying] = useState(false)
   const [t, setT] = useState(0)
+  const [restart, setRestart] = useState(0)
   const [exporting, setExporting] = useState<number | null>(null)
   const [schedOpen, setSchedOpen] = useState(false)
   const [toast, setToast] = useState('')
@@ -41,11 +42,6 @@ export default function Editor() {
   const activeWord = Math.floor((t / Math.max(1, len)) * words.length * 3) % words.length
   const s = styles.find((x) => x.id === style)!
 
-  useEffect(() => {
-    if (!playing) return
-    const iv = setInterval(() => setT((x) => (x + 0.1 >= len ? 0 : x + 0.1)), 100)
-    return () => clearInterval(iv)
-  }, [playing, len])
 
   useEffect(() => {
     if (!toast) return
@@ -110,7 +106,7 @@ export default function Editor() {
         {/* Preview */}
         <Card className="p-5">
           <div className="mx-auto max-w-[280px]">
-            <Thumb hue={clip.hue} layout={layout} className="ring-1 ring-white/10">
+            <Thumb key={clip.id} hue={clip.hue} clip={clip} layout={layout} playing={playing} restart={restart} onTime={setT} className="ring-1 ring-white/10">
               <div className={clsx('absolute inset-x-[7%] text-center', layout === 'split' ? 'top-[41%]' : 'top-[62%]')}>
                 <p className={clsx('text-[20px] leading-[1.08] text-white [text-shadow:0_2px_0_rgba(0,0,0,.7)]', s.cls)}>
                   {words.map((w, i) => (
@@ -125,7 +121,7 @@ export default function Editor() {
             </Thumb>
           </div>
           <div className="mt-4 flex items-center justify-center gap-2">
-            <button onClick={() => setT(0)} className="btn-quiet p-2" aria-label="Restart">
+            <button onClick={() => (setT(0), setRestart((n) => n + 1), setPlaying(true))} className="btn-quiet p-2" aria-label="Restart">
               <RotateCcw size={15} />
             </button>
             <button onClick={() => setPlaying(!playing)} className="btn-ghost h-10 w-10 rounded-full p-0" aria-label={playing ? 'Pause' : 'Play'}>
@@ -191,7 +187,7 @@ export default function Editor() {
                 {(['split', 'facecam', 'gameplay'] as const).map((l) => (
                   <button key={l} onClick={() => setLayout(l)} aria-pressed={layout === l} className={clsx('rounded-xl border p-2 transition', layout === l ? 'border-ember/60 bg-ember/[0.08]' : 'hairline bg-white/[0.02] hover:bg-white/[0.05]')}>
                     <div className="mx-auto w-10">
-                      <Thumb hue={clip.hue} layout={l} className="rounded-md" />
+                      <Thumb hue={clip.hue} clip={clip} layout={l} className="rounded-md" />
                     </div>
                     <span className="mt-2 block text-[11px] capitalize text-fg-muted">{l === 'facecam' ? 'Face cam' : l}</span>
                   </button>

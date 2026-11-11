@@ -59,10 +59,10 @@ function Nav() {
             </nav>
           </div>
           <div className="hidden items-center gap-2 md:flex">
-            <Link to="/login" className="btn-quiet">
+            <Link to="/app" className="btn-quiet">
               Log in
             </Link>
-            <Link to="/signup" className="btn-primary btn-sm">
+            <Link to="/app" className="btn-primary btn-sm">
               Start clipping
             </Link>
           </div>
@@ -78,10 +78,10 @@ function Nav() {
               </a>
             ))}
             <div className="mt-2 flex gap-2">
-              <Link to="/login" className="btn-ghost flex-1">
+              <Link to="/app" className="btn-ghost flex-1">
                 Log in
               </Link>
-              <Link to="/signup" className="btn-primary flex-1">
+              <Link to="/app" className="btn-primary flex-1">
                 Start clipping
               </Link>
             </div>
@@ -140,7 +140,7 @@ function Hero() {
             Cutline watches every hour of your Twitch, YouTube and Kick streams, finds the moments chat lost it, and turns them into captioned vertical clips for TikTok, Shorts and Reels.
           </p>
           <div className="rise mt-8 flex flex-wrap items-center gap-3" style={{ animationDelay: '180ms' }}>
-            <Link to="/signup" className="btn-primary px-5 py-3 text-[15px]">
+            <Link to="/app" className="btn-primary px-5 py-3 text-[15px]">
               Start clipping free <ArrowRight size={16} />
             </Link>
             <Link to="/app" className="btn-ghost px-5 py-3 text-[15px]">
@@ -620,7 +620,7 @@ function Pricing() {
                   <span className="text-sm text-fg-dim">/ month</span>
                 </p>
                 <p className="h-4 text-xs text-fg-dim">{annual && p.m > 0 ? `$${price * 12} billed yearly` : ''}</p>
-                <Link to="/signup" className={clsx('mt-6', p.popular ? 'btn-primary' : 'btn-ghost')}>
+                <Link to="/app" className={clsx('mt-6', p.popular ? 'btn-primary' : 'btn-ghost')}>
                   {p.cta}
                 </Link>
                 <ul className="mt-6 flex flex-col gap-2.5 border-t hairline pt-6">
@@ -712,7 +712,7 @@ function FinalCTA() {
             <h2 className="display mt-5 text-[34px] font-semibold leading-[1.02] sm:text-[48px]">Your next stream is already full of clips.</h2>
             <p className="mt-4 text-fg-muted">Connect your channel in under a minute. Your first clips are ready before you finish your outro.</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/signup" className="btn-primary px-5 py-3 text-[15px]">
+              <Link to="/app" className="btn-primary px-5 py-3 text-[15px]">
                 Start clipping free <ArrowRight size={16} />
               </Link>
               <Link to="/app" className="btn-ghost px-5 py-3 text-[15px]">
